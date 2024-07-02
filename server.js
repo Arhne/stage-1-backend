@@ -3,16 +3,12 @@ const express = require ("express");
 
 const app = express();
 
-
+// This line helps you to get your IP address from express, since IP is hidden by default;
 app.set('trust proxy', true);
 
 app.use((req, res, next) => {
-    // const clientIp = req.connection.remoteAddress || 0;
-
-    // const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    var ip = req.headers['x-forwarded-for'] ||
-     req.socket.remoteAddress ||
-     null;
+   
+    var ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || null;
     console.log('Client IP:', ip);
     next();
 });
@@ -21,7 +17,7 @@ app.get("/api/hello/", (req, res) =>{
     const {visitor_name} = req.query
  res.json({
     // message: "sample mesg"
-    "client_Id": req.headers['x-forwarded-for'] || req.connection.remoteAddress
+    "client_Id": req.headers['x-forwarded-for'] || req.ip
  })  
 })
 
