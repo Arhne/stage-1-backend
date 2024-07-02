@@ -22,7 +22,7 @@ app.get("/api/hello/", (req, res) => {
   const { visitor_name } = req.query;
   const IP = req.headers["x-forwarded-for"] || req.ip;
   const newIP = IP.split(",").slice(0, 1)[0];
-  const {name, temp_c} = weatherResponse;
+  const {name, temp_c} = weatherResponse(newIP);
   res.json({   
     client_ip: newIP,
     location: name,
