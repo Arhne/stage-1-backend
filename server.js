@@ -15,9 +15,11 @@ app.use((req, res, next) => {
 
 app.get("/api/hello/", (req, res) =>{
     const {visitor_name} = req.query
+    const IP = req.headers['x-forwarded-for'] || req.ip
+    const newIP = IP.split(",").slice(0, 1)
  res.json({
     // message: "sample mesg"
-    "client_Id": req.headers['x-forwarded-for'] || req.ip
+    "client_Id": newIP
  })  
 })
 
