@@ -4,6 +4,14 @@ const weatherResponse = require("./utils");
 
 const app = express();
 
+
+const stripQuotes = (visitor_name) => {
+    if (visitor_name.startsWith('"') && visitor_name.endsWith('"')) {
+        return visitor_name.slice(1, -1);
+    }
+    return visitor_name;
+}
+
 // This line helps you to get your IP address from express, since IP is hidden by default;
 app.set("trust proxy", true);
 
@@ -23,13 +31,15 @@ app.get("/api/hello/", async (req, res) => {
   const IP = req.headers["x-forwarded-for"] || req.ip;
   const newIP = IP.split(",").slice(0, 1)[0];
   const {name, temp_c} = await weatherResponse(newIP);
+
   res.json({   
     client_ip: newIP,
     location: name,
-    greetings: `Hello, ${visitor_name}!, the temperature is ${temp_c} degrees Celcius in ${name}`
+    greetings: `Hello, ${visitor_name ? stripQuotes(visitor_name) : "guest"}!, the temperature is ${temp_c} degrees Celcius in ${name}`,
   });
 });
 
 app.listen(4000, function () {
   console.log("server is running on port 3000");
 });
+
