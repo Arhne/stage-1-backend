@@ -26,7 +26,7 @@ app.use((req, res, next) => {
 //     "location": "New York" // The city of the requester
 //     "greeting": "Hello, Mark!, the temperature is 11 degrees Celcius in New York"
 //   }
-app.get("/api/hello/", async (req, res) => {
+app.get("/api/hello", async (req, res) => {
   const { visitor_name } = req.query;
   const IP = req.headers["x-forwarded-for"] || req.ip;
   const newIP = IP.split(",").slice(0, 1)[0];
